@@ -6142,7 +6142,7 @@ GameObject:
   - component: {fileID: 314262767}
   m_Layer: 8
   m_Name: Oneway Platform
-  m_TagString: Untagged
+  m_TagString: OneWayPlatform
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6321,7 +6321,7 @@ Tilemap:
   m_AnimationFrameRate: 1
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Origin: {x: -11, y: -1, z: 0}
-  m_Size: {x: 20, y: 3, z: 1}
+  m_Size: {x: 20, y: 4, z: 1}
   m_TileAnchor: {x: 0.5, y: 0.5, z: 0}
   m_TileOrientation: 0
   m_TileOrientationMatrix:
@@ -6362,43 +6362,43 @@ CompositeCollider2D:
   - m_Collider: {fileID: 314262766}
     m_ColliderPaths:
     - - X: -80000000
-        Y: 15625000
+        Y: 16250000
       - X: -80000000
         Y: 20000000
       - X: -110000000
         Y: 20000000
       - X: -110000000
-        Y: 15625000
+        Y: 16250000
       - X: -109375000
-        Y: 15000000
+        Y: 15625000
       - X: -80625000
-        Y: 15000000
+        Y: 15625000
     - - X: -30000000
-        Y: -4375000
+        Y: -3750000
       - X: -30000000
         Y: 0
       - X: -60000000
         Y: 0
       - X: -60000000
-        Y: -4375000
+        Y: -3750000
       - X: -59375000
-        Y: -5000000
+        Y: -4375000
       - X: -30625000
-        Y: -5000000
+        Y: -4375000
   m_CompositePaths:
     m_Paths:
-    - - {x: -8.0625105, y: 1.5}
-      - {x: -8, y: 1.5625108}
+    - - {x: -8.0625105, y: 1.5625}
+      - {x: -8, y: 1.6250108}
       - {x: -8.00003, y: 2}
       - {x: -11, y: 1.9999708}
-      - {x: -10.999992, y: 1.5624924}
-      - {x: -10.9374895, y: 1.5}
-    - - {x: -3.0625107, y: -0.5}
-      - {x: -3, y: -0.4374892}
+      - {x: -10.999992, y: 1.6249924}
+      - {x: -10.9374895, y: 1.5625}
+    - - {x: -3.0625107, y: -0.4375}
+      - {x: -3, y: -0.3749892}
       - {x: -3.0000293, y: 0}
       - {x: -6, y: -0.000029300001}
-      - {x: -5.9999924, y: -0.4375076}
-      - {x: -5.937489, y: -0.5}
+      - {x: -5.9999924, y: -0.3750076}
+      - {x: -5.937489, y: -0.4375}
   m_VertexDistance: 0.0005
   m_OffsetDistance: 0.00005
 --- !u!50 &314262765
@@ -8641,7 +8641,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1271087686741007615, guid: 123aadd3b8d487e45bfb1536f9143be3, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 3.8892753
+      value: 5.09
       objectReference: {fileID: 0}
     - target: {fileID: 1271087686741007615, guid: 123aadd3b8d487e45bfb1536f9143be3, type: 3}
       propertyPath: m_LocalPosition.z
@@ -10390,6 +10390,7 @@ GameObject:
   - component: {fileID: 1698393619}
   - component: {fileID: 1698393621}
   - component: {fileID: 1698393622}
+  - component: {fileID: 1698393626}
   - component: {fileID: 1698393623}
   - component: {fileID: 1698393624}
   - component: {fileID: 1698393625}
@@ -10460,7 +10461,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1698393614}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -9.79, y: 0.27, z: 0}
+  m_LocalPosition: {x: -9.79, y: -1.6, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -10877,6 +10878,20 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &1698393626
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1698393614}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84fafd966ac4389498c39c333afe32f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerCollider: {fileID: 0}
+  DisableCollisionDuration: 0.35
 --- !u!4 &1713611699 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1510580997158032169, guid: 7b36840f38b4b2b49868f8630f96fab7, type: 3}
