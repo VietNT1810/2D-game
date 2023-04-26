@@ -24,12 +24,12 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float wallSlidingSpeed = 2f;
 
     //wall jump
-    private bool isWallJumping;
+    private bool isWallJumping = false;
     private float wallJumpingDirection;
     private float wallJumpingTime = 0.2f;
     private float wallJumpingCounter;
     private float wallJumpingDuration = 2f;
-    private Vector2 wallJumpingPower = new Vector2(8f, 10f);
+    [SerializeField] private Vector2 wallJumpingPower = new Vector2(8f, 10f);
 
     private Animator anim;
     private enum MovementState { idling, running, jumping, falling, sliding }
