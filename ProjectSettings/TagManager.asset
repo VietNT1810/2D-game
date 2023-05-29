@@ -7,6 +7,8 @@ TagManager:
   - PineApple
   - Trap
   - OneWayPlatform
+  - Audio
+  - Settings
   layers:
   - Default
   - TransparentFX

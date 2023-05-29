@@ -6,6 +6,7 @@ public class PlayerMovement : MonoBehaviour
     private SpriteRenderer sr;
     private float dirX;
     private BoxCollider2D coll;
+    AudioManager audioManager;
 
     //wall slide
     private bool facingRight;
@@ -34,6 +35,11 @@ public class PlayerMovement : MonoBehaviour
     private Animator anim;
     private enum MovementState { idling, running, jumping, falling, sliding }
 
+    private void Awake()
+    {
+        audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
+    }
+
     // Start is called before the first frame update
     private void Start()
     {
@@ -53,7 +59,8 @@ public class PlayerMovement : MonoBehaviour
         {
             // rb.velocity = new Vector2(rb.velocity.x, jumpPower);
             rb.velocity = Vector2.up * jumpPower;
-            jumpSound.Play();
+            //jumpSound.Play();
+            audioManager.PlaySFX(audioManager.jump);
         }
 
         if (isTouchingFront() == true && isGrounded() == false && dirX != 0)

@@ -5,8 +5,12 @@ public class PlayerLife : MonoBehaviour
 {
     private Animator anim;
     private Rigidbody2D rb;
+    AudioManager audioManager;
 
-    [SerializeField] private AudioSource deathSound;
+    private void Awake()
+    {
+        audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
+    }
 
     void Start()
     {
@@ -19,7 +23,7 @@ public class PlayerLife : MonoBehaviour
         if (collision.gameObject.CompareTag("Trap"))
         {
             PlayerDie();
-            deathSound.Play();
+            audioManager.PlaySFX(audioManager.death);
         };
     }
 
@@ -29,8 +33,10 @@ public class PlayerLife : MonoBehaviour
         anim.SetTrigger("death");
     }
 
+    //Call on death animation end
     private void RestartLevel()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        Debug.Log("Restart LEvel");
     }
 }

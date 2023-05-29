@@ -5,25 +5,18 @@ using UnityEngine.SceneManagement;
 
 public class FinishLevel : MonoBehaviour
 {
-    private AudioSource finishSound;
+    AudioManager audioManager;
 
-    // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
-        finishSound = GetComponent<AudioSource>();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
+        audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            finishSound.Play();
+            audioManager.PlaySFX(audioManager.finish);
             Invoke("CompleteLevel", 2f);
         }
     }
