@@ -170,7 +170,6 @@ MonoBehaviour:
   myMixer: {fileID: 24100000, guid: e9bf97f9a95886d4f965310748324678, type: 2}
   musicSlider: {fileID: 4619614632285011895}
   sfxSlider: {fileID: 4619614632063465335}
-  closeSettingButton: {fileID: 4619614632831626331}
 --- !u!1 &4619614631753770478
 GameObject:
   m_ObjectHideFlags: 0
@@ -1575,13 +1574,13 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
-        m_Mode: 1
+      - m_Target: {fileID: 4619614632767044790}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 

@@ -17,12 +17,12 @@ public class FinishLevel : MonoBehaviour
         if (collision.gameObject.CompareTag("Player"))
         {
             audioManager.PlaySFX(audioManager.finish);
-            Invoke("CompleteLevel", 2f);
+            CompleteLevel();
         }
     }
 
     private void CompleteLevel()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        SceneController.instance.NextScene();
     }
 }

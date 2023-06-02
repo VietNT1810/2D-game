@@ -1,17 +1,19 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
     private Rigidbody2D rb;
-    private SpriteRenderer sr;
     private float dirX;
     private BoxCollider2D coll;
     AudioManager audioManager;
 
     //wall slide
     private bool facingRight;
-    private bool wallSliding = false;
+    private bool isWallSliding = false;
 
+    //Jump
     [SerializeField] private float xWallForce;
     [SerializeField] private float yWallForce;
     [SerializeField] private float wallJumpTime;
@@ -23,6 +25,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private AudioSource jumpSound;
     [SerializeField] private Transform frontCheck;
     [SerializeField] private float wallSlidingSpeed = 2f;
+    private bool doubleJump;
+    private bool isDoubleJumping;
 
     //wall jump
     private bool isWallJumping = false;
@@ -33,7 +37,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private Vector2 wallJumpingPower = new Vector2(8f, 10f);
 
     private Animator anim;
-    private enum MovementState { idling, running, jumping, falling, sliding }
+    private enum MovementState { idling, running, jumping, falling, sliding, doubleJump }
 
     private void Awake()
     {
@@ -45,7 +49,6 @@ public class PlayerMovement : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
-        sr = GetComponent<SpriteRenderer>();
         coll = GetComponent<BoxCollider2D>();
     }
 
@@ -55,33 +58,43 @@ public class PlayerMovement : MonoBehaviour
         dirX = Input.GetAxis("Horizontal");
         rb.velocity = new Vector2(dirX * runSpeed, rb.velocity.y);
 
-        if (Input.GetButtonDown("Jump") && (isGrounded() || isPlatform()))
+        if (!PauseController.gameIsPaused)
         {
-            // rb.velocity = new Vector2(rb.velocity.x, jumpPower);
-            rb.velocity = Vector2.up * jumpPower;
-            //jumpSound.Play();
-            audioManager.PlaySFX(audioManager.jump);
+            Jump();
+            WallJump();
         }
-
-        if (isTouchingFront() == true && isGrounded() == false && dirX != 0)
-        {
-            wallSliding = true;
-        }
-        else
-        {
-            wallSliding = false;
-        }
-
-        if (wallSliding)
-        {
-            rb.velocity = new Vector2(rb.velocity.x, Mathf.Clamp(rb.velocity.y, -wallSlidingSpeed, float.MaxValue));
-        }
+        WallSlide();
         UpdateMovementAnimation();
-        WallJump();
+    }
+    private void Jump()
+    {
+        if (Input.GetButtonDown("Jump"))
+        {
+            if (isGrounded() || isPlatform())
+            {
+                rb.velocity = Vector2.up * jumpPower;
+                audioManager.PlaySFX(audioManager.jump);
+                isDoubleJumping = false;
+                doubleJump = true;
+            }
+            else if (doubleJump)
+            {
+                rb.velocity = Vector2.up * jumpPower * 0.7f;
+                audioManager.PlaySFX(audioManager.jump);
+                doubleJump = false;
+                StartCoroutine(SetIsDoubleJump());
+            }
+        }
+    }
+    IEnumerator SetIsDoubleJump()
+    {
+        isDoubleJumping = true;
+        yield return new WaitForSeconds(0.5f);
+        isDoubleJumping = false;
     }
     private void WallJump()
     {
-        if (wallSliding)
+        if (isWallSliding)
         {
             isWallJumping = false;
             wallJumpingDirection = -transform.localScale.x;
@@ -96,9 +109,21 @@ public class PlayerMovement : MonoBehaviour
 
         if (Input.GetButtonDown("Jump") && wallJumpingCounter > 0f)
         {
-            isWallJumping = true;
-            rb.velocity = new Vector2(wallJumpingDirection * wallJumpingPower.x, wallJumpingPower.y);
-            wallJumpingCounter = 0f;
+            if (wallJumpingCounter > 0f)
+            {
+                isWallJumping = true;
+                rb.velocity = new Vector2(wallJumpingDirection * wallJumpingPower.x, wallJumpingPower.y);
+                wallJumpingCounter = 0f;
+                audioManager.PlaySFX(audioManager.jump);
+                doubleJump = true;
+            }
+            else if (doubleJump)
+            {
+                rb.velocity = new Vector2(wallJumpingDirection * wallJumpingPower.x * 0.7f, wallJumpingPower.y * 0.7f);
+                audioManager.PlaySFX(audioManager.jump);
+                doubleJump = false;
+                StartCoroutine(SetIsDoubleJump());
+            }
 
             if (transform.localScale.x != wallJumpingDirection)
             {
@@ -108,10 +133,29 @@ public class PlayerMovement : MonoBehaviour
             Invoke("SetWallJumpingToFalse", wallJumpingDuration);
         }
     }
+
     private void SetWallJumpingToFalse()
     {
         isWallJumping = false;
     }
+
+    private void WallSlide()
+    {
+        if (isTouchingFront() == true && isGrounded() == false && dirX != 0)
+        {
+            isWallSliding = true;
+        }
+        else
+        {
+            isWallSliding = false;
+        }
+
+        if (isWallSliding)
+        {
+            rb.velocity = new Vector2(rb.velocity.x, Mathf.Clamp(rb.velocity.y, -wallSlidingSpeed, float.MaxValue));
+        }
+    }
+
     private void UpdateMovementAnimation()
     {
         MovementState state;
@@ -120,12 +164,10 @@ public class PlayerMovement : MonoBehaviour
         if (dirX > 0f) //running right
         {
             state = MovementState.running;
-            // sr.flipX = false;
         }
         else if (dirX < 0f) //running left
         {
             state = MovementState.running;
-            // sr.flipX = true;
         }
         else
         {
@@ -141,7 +183,12 @@ public class PlayerMovement : MonoBehaviour
             state = MovementState.falling;
         }
 
-        if (wallSliding)
+        if (isDoubleJumping)
+        {
+            state = MovementState.doubleJump;
+        }
+
+        if (isWallSliding)
         {
             state = MovementState.sliding;
         }

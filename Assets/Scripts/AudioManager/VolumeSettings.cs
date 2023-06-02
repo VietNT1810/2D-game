@@ -9,7 +9,6 @@ public class VolumeSettings : MonoBehaviour
     [SerializeField] private AudioMixer myMixer;
     [SerializeField] private Slider musicSlider;
     [SerializeField] private Slider sfxSlider;
-    [SerializeField] private Button closeSettingButton;
 
     private void Start()
     {
@@ -22,16 +21,6 @@ public class VolumeSettings : MonoBehaviour
             SetMusicVolume();
             SetSfxVolume();
         }
-    }
-
-    private void Update()
-    {
-        closeSettingButton.onClick.AddListener(CloseSettings);
-    }
-
-    private void CloseSettings()
-    {
-        this.transform.parent.gameObject.SetActive(false);
     }
 
     public void SetMusicVolume()
